@@ -16,7 +16,6 @@
 package org.springframework.samples.petclinic.owner;
 
 import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -52,7 +51,6 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 	 * @return a Collection of matching {@link Owner}s (or an empty Collection if none
 	 * found)
 	 */
-
 	@Query("SELECT DISTINCT owner FROM Owner owner left join  owner.pets WHERE owner.lastName LIKE :lastName% ")
 	@Transactional(readOnly = true)
 	Page<Owner> findByLastName(@Param("lastName") String lastName, Pageable pageable);
@@ -72,9 +70,7 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 	 */
 	void save(Owner owner);
 
-	/**
-	 * Returns all the owners from data store
-	 **/
+	/** Returns all the owners from data store */
 	@Query("SELECT owner FROM Owner owner")
 	@Transactional(readOnly = true)
 	Page<Owner> findAll(Pageable pageable);

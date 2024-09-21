@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.Collection;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -41,13 +40,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration test of the Service and the Repository layer.
+ *
  * <p>
  * ClinicServiceSpringDataJpaTests subclasses benefit from the following services provided
  * by the Spring TestContext Framework:
- * </p>
+ *
  * <ul>
  * <li><strong>Spring IoC container caching</strong> which spares us unnecessary set up
- * time between test execution.</li>
+ * time between test execution.
  * <li><strong>Dependency Injection</strong> of test fixture instances, meaning that we
  * don't need to perform application context lookups. See the use of
  * {@link Autowired @Autowired} on the <code> </code> instance variable, which uses
@@ -57,7 +57,7 @@ import org.springframework.transaction.annotation.Transactional;
  * insert or otherwise change database state, there is no need for a teardown or cleanup
  * script.
  * <li>An {@link org.springframework.context.ApplicationContext ApplicationContext} is
- * also inherited and can be used for explicit bean lookup if necessary.</li>
+ * also inherited and can be used for explicit bean lookup if necessary.
  * </ul>
  *
  * @author Ken Krebs
@@ -83,11 +83,11 @@ class ClinicServiceTests {
 
 	@Test
 	void shouldFindOwnersByLastName() {
-		Page<Owner> owners = this.owners.findByLastName("Davis", pageable);
-		assertThat(owners).hasSize(2);
+		Page<Owner> ownersWithLastNameDavis = this.owners.findByLastName("Davis", pageable);
+		assertThat(ownersWithLastNameDavis).hasSize(2);
 
-		owners = this.owners.findByLastName("Daviss", pageable);
-		assertThat(owners).isEmpty();
+		Page<Owner> ownersWithLastNameDaviss = this.owners.findByLastName("Daviss", pageable);
+		assertThat(ownersWithLastNameDaviss).isEmpty();
 	}
 
 	@Test
@@ -102,8 +102,8 @@ class ClinicServiceTests {
 	@Test
 	@Transactional
 	void shouldInsertOwner() {
-		Page<Owner> owners = this.owners.findByLastName("Schultz", pageable);
-		int found = (int) owners.getTotalElements();
+		Page<Owner> initialOwners = this.owners.findByLastName("Schultz", pageable);
+		int found = (int) initialOwners.getTotalElements();
 
 		Owner owner = new Owner();
 		owner.setFirstName("Sam");
@@ -114,8 +114,8 @@ class ClinicServiceTests {
 		this.owners.save(owner);
 		assertThat(owner.getId()).isNotZero();
 
-		owners = this.owners.findByLastName("Schultz", pageable);
-		assertThat(owners.getTotalElements()).isEqualTo(found + 1);
+		Page<Owner> updatedOwners = this.owners.findByLastName("Schultz", pageable);
+		assertThat(updatedOwners.getTotalElements()).isEqualTo(found + 1);
 	}
 
 	@Test
@@ -184,9 +184,9 @@ class ClinicServiceTests {
 
 	@Test
 	void shouldFindVets() {
-		Collection<Vet> vets = this.vets.findAll();
+		Collection<Vet> allVets = this.vets.findAll();
 
-		Vet vet = EntityUtils.getById(vets, Vet.class, 3);
+		Vet vet = EntityUtils.getById(allVets, Vet.class, 3);
 		assertThat(vet.getLastName()).isEqualTo("Douglas");
 		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
 		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
@@ -205,7 +205,7 @@ class ClinicServiceTests {
 		owner6.addVisit(pet7.getId(), visit);
 		this.owners.save(owner6);
 
-		owner6 = this.owners.findById(6);
+		this.owners.findById(6);
 
 		assertThat(pet7.getVisits()) //
 			.hasSize(found + 1) //

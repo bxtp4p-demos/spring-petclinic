@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,7 +67,7 @@ class PetTypeFormatterTests {
 	}
 
 	@Test
-	void shouldThrowParseException() throws ParseException {
+	void shouldThrowParseException() {
 		given(this.pets.findPetTypes()).willReturn(makePetTypes());
 		Assertions.assertThrows(ParseException.class, () -> {
 			petTypeFormatter.parse("Fish", Locale.ENGLISH);

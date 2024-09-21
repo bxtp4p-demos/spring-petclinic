@@ -11,7 +11,7 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>3.3.3</version>
-	<relativePath/>
+    <relativePath />
   </parent>
   <name>petclinic</name>
 
@@ -271,10 +271,38 @@
       <!-- Spring Boot Actuator displays sbom-related information if a CycloneDX SBOM file is
       present at the classpath -->
       <plugin>
-		<?m2e ignore?>
+        <?m2e ignore?>
         <groupId>org.cyclonedx</groupId>
         <artifactId>cyclonedx-maven-plugin</artifactId>
       </plugin>
+
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.8.0.2131</version>
+      </plugin>
+
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>2.43.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>apply</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <java>
+            <googleJavaFormat>
+                <version>1.17.0</version>
+            </googleJavaFormat>
+            <removeUnusedImports />
+          </java>
+        </configuration>
+      </plugin>
+
 
     </plugins>
   </build>

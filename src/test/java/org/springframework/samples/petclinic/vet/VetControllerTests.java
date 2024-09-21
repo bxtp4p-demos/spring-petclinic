@@ -16,6 +16,11 @@
 
 package org.springframework.samples.petclinic.vet;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,15 +36,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-/**
- * Test class for the {@link VetController}
- */
-
+/** Test class for the {@link VetController} */
 @WebMvcTest(VetController.class)
 @DisabledInNativeImage
 @DisabledInAotMode
@@ -76,7 +73,6 @@ class VetControllerTests {
 		given(this.vets.findAll()).willReturn(Lists.newArrayList(james(), helen()));
 		given(this.vets.findAll(any(Pageable.class)))
 			.willReturn(new PageImpl<Vet>(Lists.newArrayList(james(), helen())));
-
 	}
 
 	@Test
@@ -86,7 +82,6 @@ class VetControllerTests {
 			.andExpect(status().isOk())
 			.andExpect(model().attributeExists("listVets"))
 			.andExpect(view().name("vets/vetList"));
-
 	}
 
 	@Test
