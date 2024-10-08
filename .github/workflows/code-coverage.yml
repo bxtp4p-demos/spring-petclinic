@@ -1,0 +1,7 @@
+name: Code Coverage
+on:
+  workflow_dispatch:
+
+jobs:
+  code-coverage:
+    uses: bxtp4p-demos/example-workflows/.github/workflows/code-coverage.yml@main
